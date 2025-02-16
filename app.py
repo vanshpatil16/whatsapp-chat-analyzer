@@ -58,13 +58,13 @@ if uploaded_file is not None:
 
     # Remove rows where 'Message' contains any of the unwanted phrases
     df = df[~df["Message"].str.contains('|'.join(unwanted_phrases), na=False)]
-    def clean_usernames(user):
-        if re.search(r"changed the subject|added|removed|created this group", user):
+    def clean_usernames(User):
+        if re.search(r"changed the subject|added|removed|created this group", User):
             return None
-        return user
+        return User
 
-    df['user'] = df['user'].apply(clean_usernames)
-    df.dropna(subset=['user'], inplace=True)
+    df['User'] = df['User'].apply(clean_usernames)
+    df.dropna(subset=['User'], inplace=True)
 
     if st.sidebar.button("show Analysis of {}".format(selected_user)):
         num_messages, num_words, messages, words, num_links, links = helper.fetch_length(selected_user, df)
