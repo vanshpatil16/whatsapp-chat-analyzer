@@ -23,7 +23,7 @@ if uploaded_file is not None:
     data=bytes_data.decode("utf-8")
     #st.text(data)
     df=preprocessor.preprocessor(data)
-    st.dataframe(df)
+    
 
     #Fetching of users
     user_list=df['User'].unique().tolist()
@@ -65,6 +65,7 @@ if uploaded_file is not None:
 
     df['User'] = df['User'].apply(clean_usernames)
     df.dropna(subset=['User'], inplace=True)
+    st.dataframe(df)
 
     if st.sidebar.button("show Analysis of {}".format(selected_user)):
         num_messages, num_words, messages, words, num_links, links = helper.fetch_length(selected_user, df)
