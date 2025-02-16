@@ -63,8 +63,8 @@ if uploaded_file is not None:
             return None
         return user
 
-df['user'] = df['user'].apply(clean_usernames)
-df.dropna(subset=['user'], inplace=True)
+    df['user'] = df['user'].apply(clean_usernames)
+    df.dropna(subset=['user'], inplace=True)
 
     if st.sidebar.button("show Analysis of {}".format(selected_user)):
         num_messages, num_words, messages, words, num_links, links = helper.fetch_length(selected_user, df)
