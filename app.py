@@ -17,6 +17,7 @@ st.set_page_config(layout="wide")
 
 st.sidebar.title('Whatsapp Chat Analyzer')
 uploaded_file = st.sidebar.file_uploader("Upload a file", type=["txt"])
+
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data=bytes_data.decode("utf-8")
@@ -27,7 +28,6 @@ if uploaded_file is not None:
     #Fetching of users
     user_list=df['User'].unique().tolist()
     user_list.sort()
-    user_list.remove("CSE DS D3(students only)")
     user_list.insert(0,"Overall")
     selected_user=st.sidebar.selectbox("Select User",user_list)
     system_messages = [
@@ -58,6 +58,13 @@ if uploaded_file is not None:
 
     # Remove rows where 'Message' contains any of the unwanted phrases
     df = df[~df["Message"].str.contains('|'.join(unwanted_phrases), na=False)]
+    def clean_usernames(user):
+        if re.search(r"changed the subject|added|removed|created this group", user):
+            return None
+        return user
+
+df['user'] = df['user'].apply(clean_usernames)
+df.dropna(subset=['user'], inplace=True)
 
     if st.sidebar.button("show Analysis of {}".format(selected_user)):
         num_messages, num_words, messages, words, num_links, links = helper.fetch_length(selected_user, df)
