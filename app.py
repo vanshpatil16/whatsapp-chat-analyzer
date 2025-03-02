@@ -174,16 +174,16 @@ if st.sidebar.button("Show Sentiment Analysis of {}".format(selected_user)):
     st.pyplot(fig)
     sia = SentimentIntensityAnalyzer()
 
-     user_sentiments = {}
+    user_sentiments = {}
 
         # Process Chat Messages
-     for user, message in zip(df['User'], df['Message']):
-         score = sia.polarity_scores(str(message))  # Ensure message is string
-         sentiment = score['compound']  # Compound Score (-1 to +1)
+    for user, message in zip(df['User'], df['Message']):
+        score = sia.polarity_scores(str(message))  # Ensure message is string
+        sentiment = score['compound']  # Compound Score (-1 to +1)
 
-     if user not in user_sentiments:
-            user_sentiments[user] = []
-            user_sentiments[user].append(sentiment)
+    if user not in user_sentiments:
+        user_sentiments[user] = []
+        user_sentiments[user].append(sentiment)
 
         # Convert to DataFrame
        user_df = pd.DataFrame({
@@ -214,15 +214,15 @@ if st.sidebar.button("Show Sentiment Analysis of {}".format(selected_user)):
         plt.legend(title="Cluster")
         st.pyplot(fig)
     if st.sidebar.button("Show most available users"):
-            num_messages,num_words,messages,words,num_links,links=helper.fetch_length(selected_user,df)
-            col1, col2 = st.columns(2)
-            with col1:
-                x,new_df=helper.fetch_available_users(df)
-                fig, ax = plt.subplots()
-                ax.bar(x.index,x.values)
-                plt.xticks(rotation='vertical')
-                st.pyplot(fig)
-                plt.close(fig)
-            with col2:
-                st.dataframe(new_df)
+        num_messages,num_words,messages,words,num_links,links=helper.fetch_length(selected_user,df)
+        col1, col2 = st.columns(2)
+        with col1:
+            x,new_df=helper.fetch_available_users(df)
+            fig, ax = plt.subplots()
+            ax.bar(x.index,x.values)
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig)
+            plt.close(fig)
+        with col2:
+            st.dataframe(new_df)
 
