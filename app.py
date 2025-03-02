@@ -181,12 +181,12 @@ if st.sidebar.button("Show Sentiment Analysis of {}".format(selected_user)):
         score = sia.polarity_scores(str(message))  # Ensure message is string
         sentiment = score['compound']  # Compound Score (-1 to +1)
 
-    if user not in user_sentiments:
-        user_sentiments[user] = []
+        if user not in user_sentiments:
+            user_sentiments[user] = []
         user_sentiments[user].append(sentiment)
 
         # Convert to DataFrame
-       user_df = pd.DataFrame({
+        user_df = pd.DataFrame({
             "User": list(user_sentiments.keys()),
             "Avg Sentiment": [sum(scores) / len(scores) for scores in user_sentiments.values()]
         })
